@@ -74,22 +74,46 @@
 }
 {% endschema %}
 
+{% comment %} Determina il prodotto kit: preferisce impostazioni di sezione, altrimenti cerca per metafield o tag nella collezione {% endcomment %}
 {% assign kit_product = section.settings.kit_product %}
 {% if kit_product == blank %}
   {% assign kit_handle = section.settings.kit_product_handle %}
-  {% if kit_handle == blank and collection %}
-    {% assign kit_handle = '' %}
+  {% if collection %}
+    {% assign found_kit = blank %}
     {% for p in collection.products %}
-      {% if p.tags contains 'kit' %}
-        {% assign kit_handle = p.handle %}
+      {% assign is_kit = p.metafields.custom.is_kit.value %}
+      {% if is_kit == blank and p.tags contains 'kit' %}
+        {% assign is_kit = true %}
+      {% endif %}
+      {% if is_kit == true %}
+        {% assign found_kit = p %}
         {% break %}
       {% endif %}
     {% endfor %}
+    {% if found_kit != blank %}
+      {% assign kit_product = found_kit %}
+    {% elsif kit_handle != blank %}
+      {% assign kit_product = all_products[kit_handle] %}
+    {% endif %}
+  {% elsif kit_handle != blank %}
+    {% assign kit_product = all_products[kit_handle] %}
   {% endif %}
-  {% assign kit_product = all_products[kit_handle] %}
 {% endif %}
 
-{% unless collection and collection.handle == 'all' %}
+{%- comment -%}
+  Nascondi il kit nelle categorie che hanno collections figlie (squadre)
+{%- endcomment -%}
+{% assign teams_count = 0 %}
+{% if collection %}
+  {% for c in collections %}
+    {% assign parent = c.metafields.custom.parent_category.value %}
+    {% if parent != blank and parent == collection.title %}
+      {% assign teams_count = teams_count | plus: 1 %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% unless collection and collection.handle == 'all' or teams_count > 0 %}
   {% if kit_product %}
     {% capture children %}
       <div class="kit-feature-card">

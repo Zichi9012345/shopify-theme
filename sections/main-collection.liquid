@@ -37,6 +37,15 @@
   >
     
 
+    {% assign teams_count = 0 %}
+    {% for c in collections %}
+      {% assign parent = c.metafields.custom.parent_category.value %}
+      {% if parent != blank and parent == collection.title %}
+        {% assign teams_count = teams_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {% unless teams_count > 0 %}
     {% assign products_per_page = 24 %}
 
     {% if section.settings.enable_infinite_scroll == false %}
@@ -53,9 +62,25 @@
         {% assign exclude_kits = false %}
       {% endif %}
 
+      {% assign has_kit = false %}
+      {% for p in collection.products %}
+        {% assign p_is_kit = p.metafields.custom.is_kit.value %}
+        {% if p_is_kit == blank and p.tags contains 'kit' %}
+          {% assign p_is_kit = true %}
+        {% endif %}
+        {% if p_is_kit == true %}
+          {% assign has_kit = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
       {% capture children_others %}
         {% for product in collection.products %}
-          {% unless exclude_kits and product.tags contains 'kit' %}
+          {% assign is_kit = product.metafields.custom.is_kit.value %}
+          {% if is_kit == blank and product.tags contains 'kit' %}
+            {% assign is_kit = true %}
+          {% endif %}
+          {% unless exclude_kits and is_kit == true %}
             <li
               id="{{ section.id }}-{{ product.id }}"
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -74,7 +99,7 @@
 
       
 
-      {% if paginate.current_page == 1 %}
+      {% if paginate.current_page == 1 and has_kit == false %}
         {% content_for 'block',
           type: 'filters',
           id: 'filters',
@@ -83,10 +108,7 @@
         %}
       {% endif %}
 
-      {% assign grid_title = 'Altri prodotti' %}
-      {% if collection.handle == 'all' %}
-        {% assign grid_title = '' %}
-      {% endif %}
+      {% assign grid_title = '' %}
 
       {% render 'product-grid',
         section: section,
@@ -98,6 +120,7 @@
         items_count: others_count
       %}
     {% endpaginate %}
+    {% endunless %}
   </div>
 </results-list>
 

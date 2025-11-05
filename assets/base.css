@@ -4296,3 +4296,7 @@ text-component {
     font-size: max(1rem, 100%);
   }
 }
+/* Hide product recommendations globally */
+product-recommendations {
+  display: none !important;
+}
