@@ -6,13 +6,53 @@
 
 {% schema %}
 {
-  "name": "Collection — Kit feature",
+  "name": "Collection — Kit",
   "settings": [
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Schema colore",
       "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Larghezza sezione",
+      "options": [
+        { "value": "page-width", "label": "Pagina" },
+        { "value": "full-width", "label": "Schermo intero" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Spaziatura",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Padding sopra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Padding sotto",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
     },
     {
       "type": "product",
@@ -49,9 +89,10 @@
   {% assign kit_product = all_products[kit_handle] %}
 {% endif %}
 
-{% if kit_product %}
-  <div class="collection-kit-feature-wrapper color-{{ section.settings.color_scheme }}" role="region" aria-label="Kit completo">
-    <div class="kit-feature-card">
+{% unless collection and collection.handle == 'all' %}
+  {% if kit_product %}
+    {% capture children %}
+      <div class="kit-feature-card">
       {% if section.settings.show_badge %}
         <div class="kit-badge">Kit completo</div>
       {% endif %}
@@ -67,35 +108,36 @@
         {% endif %}
       </a>
 
-      <div class="kit-info">
-        <h2 class="kit-title">
-          <a href="{{ kit_product.url }}">{{ kit_product.title }}</a>
-        </h2>
-        <div class="kit-price">
-          {% if kit_product.price_varies %}
-            {{ kit_product.price_min | money }} - {{ kit_product.price_max | money }}
-          {% else %}
-            {{ kit_product.price | money }}
-          {% endif %}
+        <div class="kit-info">
+          <h2 class="kit-title">
+            <a href="{{ kit_product.url }}">{{ kit_product.title }}</a>
+          </h2>
+          <div class="kit-price">
+            {% if kit_product.price_varies %}
+              {{ kit_product.price_min | money }} - {{ kit_product.price_max | money }}
+            {% else %}
+              {{ kit_product.price | money }}
+            {% endif %}
+          </div>
+          <div class="kit-excerpt">
+            {{ kit_product.description | strip_html | truncate: 160 }}
+          </div>
+          <a href="{{ kit_product.url }}" class="button">Vedi il kit</a>
         </div>
-        <div class="kit-excerpt">
-          {{ kit_product.description | strip_html | truncate: 160 }}
-        </div>
-        <a href="{{ kit_product.url }}" class="button">Vedi il kit</a>
       </div>
-    </div>
-  </div>
-{% else %}
-  <!-- fallback se non trova il prodotto -->
-  <p class="kit-feature-empty">
-    Il prodotto kit non è stato trovato. Controlla l'handle nelle impostazioni della sezione.
-  </p>
-{% endif %}
+    {% endcapture %}
+    {% render 'section', section: section, children: children %}
+  {% else %}
+    <!-- fallback se non trova il prodotto -->
+    <p class="kit-feature-empty">
+      Il prodotto kit non è stato trovato. Controlla l'handle nelle impostazioni della sezione.
+    </p>
+  {% endif %}
+{% endunless %}
 
 <style>
   /* Semplice CSS di base — adattalo al design Horizon del tuo store */
-  .collection-kit-feature-wrapper { margin: 2rem 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, var(--color-background)); box-shadow: 0 6px 18px rgba(0,0,0,0.06);} 
-  .kit-feature-card { display:flex; gap:1.25rem; align-items:center; }
+  .kit-feature-card { display:flex; gap:1.25rem; align-items:center; margin-inline: auto; max-width: min(100%, 1000px); }
   .kit-image-link img { width: 220px; height: auto; border-radius: 10px; object-fit: cover; }
   .kit-title { margin:0 0 .5rem; font-size:1.25rem; }
   .kit-badge { background: rgb(var(--color-foreground-rgb) / var(--opacity-20)); color: var(--color-foreground); padding:.25rem .5rem; display:inline-block; border-radius:6px; font-size:.8rem; margin-bottom:.5rem; }

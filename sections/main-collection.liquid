@@ -48,9 +48,14 @@
 
       {% comment %} Kit gestito da sezione dedicata; qui escludiamo solo i prodotti 'kit' dal grid. {% endcomment %}
 
+      {% assign exclude_kits = true %}
+      {% if collection.handle == 'all' %}
+        {% assign exclude_kits = false %}
+      {% endif %}
+
       {% capture children_others %}
         {% for product in collection.products %}
-          {% unless product.tags contains 'kit' %}
+          {% unless exclude_kits and product.tags contains 'kit' %}
             <li
               id="{{ section.id }}-{{ product.id }}"
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -78,13 +83,18 @@
         %}
       {% endif %}
 
+      {% assign grid_title = 'Altri prodotti' %}
+      {% if collection.handle == 'all' %}
+        {% assign grid_title = '' %}
+      {% endif %}
+
       {% render 'product-grid',
         section: section,
         children: children_others,
         products: collection.products,
         paginate: paginate,
         enable_infinite_scroll: section.settings.enable_infinite_scroll,
-        title: 'Altri prodotti',
+        title: grid_title,
         items_count: others_count
       %}
     {% endpaginate %}
