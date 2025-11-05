@@ -17,13 +17,12 @@
       "type": "text",
       "id": "kit_product_handle",
       "label": "Kit product handle",
-      "default": "set-completo-marvel-funko-pop"
     },
     {
       "type": "checkbox",
       "id": "show_badge",
       "label": "Mostra badge 'Kit completo' ",
-      "default": true
+      "default": false
     }
   ]
 }
@@ -31,7 +30,19 @@
 
 {% assign kit_product = section.settings.kit_product %}
 {% if kit_product == blank %}
-  {% assign kit_handle = section.settings.kit_product_handle | default: 'set-completo-marvel-funko-pop' %}
+  {% assign kit_handle = section.settings.kit_product_handle %}
+  {% if kit_handle == blank and collection %}
+    {% assign kit_handle = '' %}
+    {% for p in collection.products %}
+      {% if p.tags contains 'kit' %}
+        {% assign kit_handle = p.handle %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if kit_handle == blank %}
+    {% assign kit_handle = 'set-completo-marvel-funko-pop' %}
+  {% endif %}
   {% assign kit_product = all_products[kit_handle] %}
 {% endif %}
 
