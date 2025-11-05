@@ -15,46 +15,6 @@
       "default": "scheme-1"
     },
     {
-      "type": "select",
-      "id": "section_width",
-      "label": "Larghezza sezione",
-      "options": [
-        { "value": "page-width", "label": "Pagina" },
-        { "value": "full-width", "label": "Schermo intero" }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "label": "Spazio interno",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 12
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "Padding sopra",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "Padding sotto",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
       "type": "product",
       "id": "kit_product",
       "label": "Kit product"
@@ -62,7 +22,7 @@
     {
       "type": "text",
       "id": "kit_product_handle",
-      "label": "Kit product handle",
+      "label": "Kit product handle"
     },
     {
       "type": "checkbox",
@@ -90,22 +50,7 @@
 {% endif %}
 
 {% if kit_product %}
-  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-
-  <div
-    class="
-      section
-      section--{{ section.settings.section_width }}
-      color-{{ section.settings.color_scheme }}
-      spacing-style
-      gap-style
-    "
-    style="
-      {% render 'spacing-style', settings: section.settings %}
-      {% render 'gap-style', value: section.settings.gap %}
-    "
-  >
-    <div class="collection-kit-feature-wrapper" role="region" aria-label="Kit completo">
+  <div class="collection-kit-feature-wrapper color-{{ section.settings.color_scheme }}" role="region" aria-label="Kit completo">
     <div class="kit-feature-card">
       {% if section.settings.show_badge %}
         <div class="kit-badge">Kit completo</div>
@@ -149,7 +94,7 @@
 
 <style>
   /* Semplice CSS di base — adattalo al design Horizon del tuo store */
-  .collection-kit-feature-wrapper { margin: 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, var(--color-background)); box-shadow: 0 6px 18px rgba(0,0,0,0.06);} 
+  .collection-kit-feature-wrapper { margin: 2rem 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, var(--color-background)); box-shadow: 0 6px 18px rgba(0,0,0,0.06);} 
   .kit-feature-card { display:flex; gap:1.25rem; align-items:center; }
   .kit-image-link img { width: 220px; height: auto; border-radius: 10px; object-fit: cover; }
   .kit-title { margin:0 0 .5rem; font-size:1.25rem; }
