@@ -27,6 +27,191 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
+    <style>
+      /* Dark theme palette overrides */
+      body.theme--dark {
+        --color-background: #0b0f14;
+        --color-background-rgb: 11 15 20;
+        --color-foreground: #e6e6e6;
+        --color-foreground-rgb: 230 230 230;
+        --color-foreground-heading: #ffffff;
+        --color-primary: #7aa7ff;
+        --color-primary-rgb: 122 167 255;
+        --color-primary-hover: #9bbcff;
+        --color-primary-hover-rgb: 155 188 255;
+        --color-border: #2a2f38;
+        --color-border-rgb: 42 47 56;
+        --color-shadow: #000000;
+        --color-shadow-rgb: 0 0 0;
+        --color-primary-button-text: #0b0f14;
+        --color-primary-button-background: #7aa7ff;
+        --color-primary-button-border: #7aa7ff;
+        --color-primary-button-hover-text: #0b0f14;
+        --color-primary-button-hover-background: #9bbcff;
+        --color-primary-button-hover-border: #9bbcff;
+        --color-secondary-button-text: #e6e6e6;
+        --color-secondary-button-border: #3a404b;
+        --color-secondary-button-hover-text: #ffffff;
+        --color-secondary-button-hover-background: #1a212b;
+        --color-secondary-button-hover-border: #4a5160;
+        --color-input-background: #12181f;
+        --color-input-text: #e6e6e6;
+        --color-input-text-rgb: 230 230 230;
+        --color-input-border: #2a2f38;
+        --color-input-hover-background: #161d25;
+        --color-variant-background: #12181f;
+        --color-variant-border: #2a2f38;
+        --color-variant-text: #e6e6e6;
+        --color-variant-text-rgb: 230 230 230;
+        --color-variant-hover-background: #1a212b;
+        --color-variant-hover-text: #ffffff;
+        --color-selected-variant-background: #1a212b;
+        --color-selected-variant-border: #4a5160;
+        --color-selected-variant-text: #ffffff;
+        --color-selected-variant-hover-background: #202734;
+        --color-selected-variant-hover-text: #ffffff;
+        --color-selected-variant-hover-border: #5a6375;
+      }
+
+      /* Override per sezioni con classi color-* (card, header, blocchi) */
+      body.theme--dark [class^="color-"],
+      body.theme--dark [class*=" color-"] {
+        --color-background: #0b0f14;
+        --color-background-rgb: 11 15 20;
+        --color-foreground: #e6e6e6;
+        --color-foreground-rgb: 230 230 230;
+        --color-foreground-heading: #ffffff;
+        --color-primary: #7aa7ff;
+        --color-primary-rgb: 122 167 255;
+        --color-primary-hover: #9bbcff;
+        --color-primary-hover-rgb: 155 188 255;
+        --color-border: #2a2f38;
+        --color-border-rgb: 42 47 56;
+        --color-shadow: #000000;
+        --color-shadow-rgb: 0 0 0;
+        --color-primary-button-text: #0b0f14;
+        --color-primary-button-background: #7aa7ff;
+        --color-primary-button-border: #7aa7ff;
+        --color-primary-button-hover-text: #0b0f14;
+        --color-primary-button-hover-background: #9bbcff;
+        --color-primary-button-hover-border: #9bbcff;
+        --color-secondary-button-text: #e6e6e6;
+        --color-secondary-button-border: #3a404b;
+        --color-secondary-button-hover-text: #ffffff;
+        --color-secondary-button-hover-background: #1a212b;
+        --color-secondary-button-hover-border: #4a5160;
+        --color-input-background: #12181f;
+        --color-input-text: #e6e6e6;
+        --color-input-text-rgb: 230 230 230;
+        --color-input-border: #2a2f38;
+        --color-input-hover-background: #161d25;
+        --color-variant-background: #12181f;
+        --color-variant-border: #2a2f38;
+        --color-variant-text: #e6e6e6;
+        --color-variant-text-rgb: 230 230 230;
+        --color-variant-hover-background: #1a212b;
+        --color-variant-hover-text: #ffffff;
+        --color-selected-variant-background: #1a212b;
+        --color-selected-variant-border: #4a5160;
+        --color-selected-variant-text: #ffffff;
+        --color-selected-variant-hover-background: #202734;
+        --color-selected-variant-hover-text: #ffffff;
+        --color-selected-variant-hover-border: #5a6375;
+      }
+
+      /* Preferisci scuro automaticamente, a meno che non sia forzata la modalità chiara */
+      @media (prefers-color-scheme: dark) {
+        body:not(.theme--light) {
+          --color-background: #0b0f14;
+          --color-background-rgb: 11 15 20;
+          --color-foreground: #e6e6e6;
+          --color-foreground-rgb: 230 230 230;
+          --color-foreground-heading: #ffffff;
+          --color-primary: #7aa7ff;
+          --color-primary-rgb: 122 167 255;
+          --color-primary-hover: #9bbcff;
+          --color-primary-hover-rgb: 155 188 255;
+          --color-border: #2a2f38;
+          --color-border-rgb: 42 47 56;
+          --color-shadow: #000000;
+          --color-shadow-rgb: 0 0 0;
+          --color-primary-button-text: #0b0f14;
+          --color-primary-button-background: #7aa7ff;
+          --color-primary-button-border: #7aa7ff;
+          --color-primary-button-hover-text: #0b0f14;
+          --color-primary-button-hover-background: #9bbcff;
+          --color-primary-button-hover-border: #9bbcff;
+          --color-secondary-button-text: #e6e6e6;
+          --color-secondary-button-border: #3a404b;
+          --color-secondary-button-hover-text: #ffffff;
+          --color-secondary-button-hover-background: #1a212b;
+          --color-secondary-button-hover-border: #4a5160;
+          --color-input-background: #12181f;
+          --color-input-text: #e6e6e6;
+          --color-input-text-rgb: 230 230 230;
+          --color-input-border: #2a2f38;
+          --color-input-hover-background: #161d25;
+          --color-variant-background: #12181f;
+          --color-variant-border: #2a2f38;
+          --color-variant-text: #e6e6e6;
+          --color-variant-text-rgb: 230 230 230;
+          --color-variant-hover-background: #1a212b;
+          --color-variant-hover-text: #ffffff;
+          --color-selected-variant-background: #1a212b;
+          --color-selected-variant-border: #4a5160;
+          --color-selected-variant-text: #ffffff;
+          --color-selected-variant-hover-background: #202734;
+          --color-selected-variant-hover-text: #ffffff;
+          --color-selected-variant-hover-border: #5a6375;
+        }
+
+        body:not(.theme--light) [class^="color-"],
+        body:not(.theme--light) [class*=" color-"] {
+          --color-background: #0b0f14;
+          --color-background-rgb: 11 15 20;
+          --color-foreground: #e6e6e6;
+          --color-foreground-rgb: 230 230 230;
+          --color-foreground-heading: #ffffff;
+          --color-primary: #7aa7ff;
+          --color-primary-rgb: 122 167 255;
+          --color-primary-hover: #9bbcff;
+          --color-primary-hover-rgb: 155 188 255;
+          --color-border: #2a2f38;
+          --color-border-rgb: 42 47 56;
+          --color-shadow: #000000;
+          --color-shadow-rgb: 0 0 0;
+          --color-primary-button-text: #0b0f14;
+          --color-primary-button-background: #7aa7ff;
+          --color-primary-button-border: #7aa7ff;
+          --color-primary-button-hover-text: #0b0f14;
+          --color-primary-button-hover-background: #9bbcff;
+          --color-primary-button-hover-border: #9bbcff;
+          --color-secondary-button-text: #e6e6e6;
+          --color-secondary-button-border: #3a404b;
+          --color-secondary-button-hover-text: #ffffff;
+          --color-secondary-button-hover-background: #1a212b;
+          --color-secondary-button-hover-border: #4a5160;
+          --color-input-background: #12181f;
+          --color-input-text: #e6e6e6;
+          --color-input-text-rgb: 230 230 230;
+          --color-input-border: #2a2f38;
+          --color-input-hover-background: #161d25;
+          --color-variant-background: #12181f;
+          --color-variant-border: #2a2f38;
+          --color-variant-text: #e6e6e6;
+          --color-variant-text-rgb: 230 230 230;
+          --color-variant-hover-background: #1a212b;
+          --color-variant-hover-text: #ffffff;
+          --color-selected-variant-background: #1a212b;
+          --color-selected-variant-border: #4a5160;
+          --color-selected-variant-text: #ffffff;
+          --color-selected-variant-hover-background: #202734;
+          --color-selected-variant-hover-text: #ffffff;
+          --color-selected-variant-hover-border: #5a6375;
+        }
+      }
+    </style>
+
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}

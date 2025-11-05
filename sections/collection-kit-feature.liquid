@@ -9,6 +9,12 @@
   "name": "Collection — Kit feature",
   "settings": [
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colore",
+      "default": "scheme-1"
+    },
+    {
       "type": "product",
       "id": "kit_product",
       "label": "Kit product"
@@ -44,7 +50,7 @@
 {% endif %}
 
 {% if kit_product %}
-  <div class="collection-kit-feature-wrapper" role="region" aria-label="Kit completo">
+  <div class="collection-kit-feature-wrapper color-{{ section.settings.color_scheme }}" role="region" aria-label="Kit completo">
     <div class="kit-feature-card">
       {% if section.settings.show_badge %}
         <div class="kit-badge">Kit completo</div>
@@ -88,12 +94,12 @@
 
 <style>
   /* Semplice CSS di base — adattalo al design Horizon del tuo store */
-  .collection-kit-feature-wrapper { margin: 2rem 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, #fff); box-shadow: 0 6px 18px rgba(0,0,0,0.06);}
+  .collection-kit-feature-wrapper { margin: 2rem 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, var(--color-background)); box-shadow: 0 6px 18px rgba(0,0,0,0.06);} 
   .kit-feature-card { display:flex; gap:1.25rem; align-items:center; }
   .kit-image-link img { width: 220px; height: auto; border-radius: 10px; object-fit: cover; }
   .kit-title { margin:0 0 .5rem; font-size:1.25rem; }
-  .kit-badge { background:#111; color:#fff; padding:.25rem .5rem; display:inline-block; border-radius:6px; font-size:.8rem; margin-bottom:.5rem; }
-  .kit-info .button { margin-top:.75rem; display:inline-block; padding:.5rem .75rem; border-radius:8px; text-decoration:none; }
+  .kit-badge { background: rgb(var(--color-foreground-rgb) / var(--opacity-20)); color: var(--color-foreground); padding:.25rem .5rem; display:inline-block; border-radius:6px; font-size:.8rem; margin-bottom:.5rem; }
+  .kit-info .button { margin-top:.75rem; display:inline-block; padding:.5rem .75rem; border-radius:8px; text-decoration:none; color: var(--color-primary-button-text); background-color: var(--color-primary-button-background); border: 1px solid var(--color-primary-button-border); }
   @media (max-width: 720px) {
     .kit-feature-card { flex-direction: column; text-align:center; }
     .kit-image-link img { width:100%; max-width:300px; }

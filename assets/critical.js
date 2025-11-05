@@ -492,3 +492,21 @@ export function updateAllHeaderCustomProperties() {
 
 // Run both functions on page load
 updateAllHeaderCustomProperties();
+
+// Imposta tema scuro di default rispettando le preferenze di sistema e localStorage
+try {
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const storedTheme = localStorage.getItem('theme');
+  const bodyEl = document.body;
+
+  const theme = storedTheme || (prefersDark ? 'dark' : 'light');
+  if (theme === 'dark') {
+    bodyEl.classList.add('theme--dark');
+    bodyEl.classList.remove('theme--light');
+  } else {
+    bodyEl.classList.remove('theme--dark');
+    bodyEl.classList.add('theme--light');
+  }
+} catch (e) {
+  // Silenzia eventuali errori non critici
+}
