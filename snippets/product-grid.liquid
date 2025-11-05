@@ -101,7 +101,8 @@
       container-name: product-grid;
     "
   >
-    {% if products.size == 0 %}
+    {% assign items_count_resolved = items_count | default: products.size %}
+    {% if items_count_resolved == 0 %}
       <div class="main-collection-grid__empty">
         <h2 class="main-collection-grid__empty-title h2">
           {{ 'content.no_products_found' | t }}
