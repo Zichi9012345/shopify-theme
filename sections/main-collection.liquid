@@ -46,16 +46,7 @@
     {% paginate collection.products by products_per_page %}
       {% assign others_count = 0 %}
 
-      {% comment %} Trova il primo prodotto con tag 'kit' {% endcomment %}
-      {% assign kit_product = section.settings.kit_product %}
-      {% if kit_product == blank %}
-        {% assign kit_product = null %}
-        {% for product in collection.products %}
-          {% if product.tags contains 'kit' and kit_product == null %}
-            {% assign kit_product = product %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+      {% comment %} Kit gestito da sezione dedicata; qui escludiamo solo i prodotti 'kit' dal grid. {% endcomment %}
 
       {% capture children_others %}
         {% for product in collection.products %}
@@ -76,19 +67,7 @@
         {% endfor %}
       {% endcapture %}
 
-      {% if kit_product and paginate.current_page == 1 %}
-        <div class="main-collection-kit">
-          <h4 class="main-collection-kit__title">Kit</h4>
-          <div class="main-collection-kit__content">
-            {% # theme-check-disable %}
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: kit_product %}
-            {% # theme-check-enable %}
-            <div class="main-collection-kit__description rte">
-              {{ kit_product.description_html }}
-            </div>
-          </div>
-        </div>
-      {% endif %}
+      
 
       {% if paginate.current_page == 1 %}
         {% content_for 'block',
@@ -121,24 +100,7 @@
     }
   }
 
-  .main-collection-kit {
-    grid-column: 1 / -1;
-    padding-inline: var(--page-margin);
-    margin-block: var(--margin-lg);
-  }
-
-  .main-collection-kit__title {
-    margin-block-end: var(--gap-md);
-  }
-
-  .main-collection-kit__content {
-    display: grid;
-    gap: var(--gap-md);
-  }
-
-  .main-collection-kit__description {
-    max-width: var(--page-width);
-  }
+  
 
   .collection-wrapper {
     @media screen and (min-width: 750px) {
@@ -212,11 +174,6 @@
     "templates": ["collection"]
   },
   "settings": [
-    {
-      "type": "product",
-      "id": "kit_product",
-      "label": "Kit product"
-    },
     {
       "type": "select",
       "id": "layout_type",

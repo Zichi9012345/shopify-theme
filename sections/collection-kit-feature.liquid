@@ -9,6 +9,11 @@
   "name": "Collection — Kit feature",
   "settings": [
     {
+      "type": "product",
+      "id": "kit_product",
+      "label": "Kit product"
+    },
+    {
       "type": "text",
       "id": "kit_product_handle",
       "label": "Kit product handle",
@@ -24,8 +29,11 @@
 }
 {% endschema %}
 
-{% assign kit_handle = section.settings.kit_product_handle | default: 'set-completo-marvel-funko-pop' %}
-{% assign kit_product = all_products[kit_handle] %}
+{% assign kit_product = section.settings.kit_product %}
+{% if kit_product == blank %}
+  {% assign kit_handle = section.settings.kit_product_handle | default: 'set-completo-marvel-funko-pop' %}
+  {% assign kit_product = all_products[kit_handle] %}
+{% endif %}
 
 {% if kit_product %}
   <div class="collection-kit-feature-wrapper" role="region" aria-label="Kit completo">

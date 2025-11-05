@@ -97,6 +97,10 @@
         "padding-block-end": 48
       }
     },
+    "kit_feature": {
+      "type": "collection-kit-feature",
+      "settings": {}
+    },
     "main": {
       "type": "main-collection",
       "blocks": {
@@ -228,6 +232,7 @@
   },
   "order": [
     "section",
+    "kit_feature",
     "main"
   ]
 }
