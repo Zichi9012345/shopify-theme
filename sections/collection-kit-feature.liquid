@@ -1,0 +1,85 @@
+{% comment %}
+  collection-kit-feature.liquid
+  Mostra il prodotto "kit" in evidenza (per handle o per tag).
+  Modifica 'set-completo-marvel-funko-pop' con l'handle reale del tuo prodotto kit.
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Collection — Kit feature",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kit_product_handle",
+      "label": "Kit product handle",
+      "default": "set-completo-marvel-funko-pop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Mostra badge 'Kit completo' ",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+
+{% assign kit_handle = section.settings.kit_product_handle | default: 'set-completo-marvel-funko-pop' %}
+{% assign kit_product = all_products[kit_handle] %}
+
+{% if kit_product %}
+  <div class="collection-kit-feature-wrapper" role="region" aria-label="Kit completo">
+    <div class="kit-feature-card">
+      {% if section.settings.show_badge %}
+        <div class="kit-badge">Kit completo</div>
+      {% endif %}
+      <a href="{{ kit_product.url }}" class="kit-image-link">
+        {% if kit_product.featured_image %}
+          <img
+            src="{{ kit_product.featured_image | img_url: '800x' }}"
+            alt="{{ kit_product.title }}"
+            width="{{ kit_product.featured_image.width }}"
+            height="{{ kit_product.featured_image.height }}"
+            loading="lazy"
+          >
+        {% endif %}
+      </a>
+
+      <div class="kit-info">
+        <h2 class="kit-title">
+          <a href="{{ kit_product.url }}">{{ kit_product.title }}</a>
+        </h2>
+        <div class="kit-price">
+          {% if kit_product.price_varies %}
+            {{ kit_product.price_min | money }} - {{ kit_product.price_max | money }}
+          {% else %}
+            {{ kit_product.price | money }}
+          {% endif %}
+        </div>
+        <div class="kit-excerpt">
+          {{ kit_product.description | strip_html | truncate: 160 }}
+        </div>
+        <a href="{{ kit_product.url }}" class="button">Vedi il kit</a>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <!-- fallback se non trova il prodotto -->
+  <p class="kit-feature-empty">
+    Il prodotto kit non è stato trovato. Controlla l'handle nelle impostazioni della sezione.
+  </p>
+{% endif %}
+
+<style>
+  /* Semplice CSS di base — adattalo al design Horizon del tuo store */
+  .collection-kit-feature-wrapper { margin: 2rem 0; padding: 1.25rem; border-radius: 12px; background: var(--card-background, #fff); box-shadow: 0 6px 18px rgba(0,0,0,0.06);}
+  .kit-feature-card { display:flex; gap:1.25rem; align-items:center; }
+  .kit-image-link img { width: 220px; height: auto; border-radius: 10px; object-fit: cover; }
+  .kit-title { margin:0 0 .5rem; font-size:1.25rem; }
+  .kit-badge { background:#111; color:#fff; padding:.25rem .5rem; display:inline-block; border-radius:6px; font-size:.8rem; margin-bottom:.5rem; }
+  .kit-info .button { margin-top:.75rem; display:inline-block; padding:.5rem .75rem; border-radius:8px; text-decoration:none; }
+  @media (max-width: 720px) {
+    .kit-feature-card { flex-direction: column; text-align:center; }
+    .kit-image-link img { width:100%; max-width:300px; }
+  }
+</style>
